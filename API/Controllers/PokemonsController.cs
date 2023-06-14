@@ -1,7 +1,6 @@
 using Core.Entities;
-using Infrastructure.Data;
+using Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
@@ -9,24 +8,38 @@ namespace API.Controllers
     [Route("api/[controller]")]
     public class PokemonsController : ControllerBase
     {
-        private readonly StoreContext context;
-        public PokemonsController(StoreContext context)
+        private readonly InterfaceRepository repository;
+        
+        public PokemonsController(InterfaceRepository repository)
         {
-            this.context = context;
+            this.repository = repository;
         }
     
         // Return Products in JSON format
         [HttpGet]
         public async Task<ActionResult<List<Pokemon>>> GetPokemons()
         {
-            return await this.context.Pokemons.ToListAsync();
+            return Ok(await this.repository.GetPokemonsAsync());
         }
 
         // Return a product in JSON format, given a route of the product requested 
         [HttpGet("{name}")]
         public async Task<ActionResult<Pokemon>> GetPokemon(string name)
         {
-            return await this.context.Pokemons.FirstOrDefaultAsync(pokemon => pokemon.Name == name);
+            return Ok(await this.repository.GetPokemonNameAsync(name));
         }
+
+        [HttpGet("abilities")]
+        public async Task<ActionResult<IReadOnlyList<PokemonAbilitie>>> GetPokemonAbilities()
+        {
+            return Ok(await this.repository.GetPokemonAbilitiesAsync());
+        }
+
+        [HttpGet("types")]
+        public async Task<ActionResult<IReadOnlyList<PokemonType>>> GetPokemonTypes()
+        {
+            return Ok(await this.repository.GetPokemonTypesAsync());
+        }
+
     }
 }

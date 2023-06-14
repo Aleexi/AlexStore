@@ -1,0 +1,30 @@
+[
+  {
+    "Name" : "Darkrai",
+    "Strength" : 100,
+    "PictureURL" : "images/pokemons/darkrai.jpg",
+    "PokemonTypeId" : 1,
+    "PokemonAbilitieId" : 1
+  },
+  {
+    "Name" : "Mew",
+    "Strength" : 1,
+    "PictureURL" : "images/pokemons/mew.jpg",
+    "PokemonTypeId" : 2,
+    "PokemonAbilitieId" : 2
+  },
+  {
+    "Name" : "Charizard",
+    "Strength" : 50,
+    "PictureURL" : "images/pokemons/charizard.jpg",
+    "PokemonTypeId" : 3,
+    "PokemonAbilitieId" : 3
+  },
+  {
+    "Name" : "Arceus",
+    "Strength" : 1000,
+    "PictureURL" : "images/pokemons/arceus.jpg",
+    "PokemonTypeId" : 4,
+    "PokemonAbilitieId" : 4
+  }
+]

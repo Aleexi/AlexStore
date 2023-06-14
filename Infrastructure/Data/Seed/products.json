@@ -1,0 +1,50 @@
+[
+  {
+    "Name": "Armani Hoodie",
+    "Price": 2000,
+    "PictureURL": "images/products/armani-hoodie.jpg",
+    "ProductTypeId": 5,
+    "ProductBrandId": 1,
+    "Rarity" : "Extreme"
+  },
+  {
+    "Name": "Gant Hoodie",
+    "Price": 1100,
+    "PictureURL": "images/products/gant-hoodie.jpg",
+    "ProductTypeId": 5,
+    "ProductBrandId": 2,
+    "Rarity" : "Extreme"
+  },
+  {
+    "Name": "Hugo Boss Jeans",
+    "Price": 1800,
+    "PictureURL": "images/products/hugo-boss-jeans.jpg",
+    "ProductTypeId": 2,
+    "ProductBrandId": 5,
+    "Rarity" : "Extreme"
+  },
+  {
+    "Name": "Moncler Sweatshirt",
+    "Price": 3000,
+    "PictureURL": "images/products/moncler-sweatshirt.jpg",
+    "ProductTypeId": 3,
+    "ProductBrandId": 3,
+    "Rarity" : "Extreme"
+  },
+  {
+    "Name": "Balenciaga Hat",
+    "Price": 2500,
+    "PictureURL": "images/products/balenciaga-hat.jpg",
+    "ProductTypeId": 4,
+    "ProductBrandId": 4,
+    "Rarity" : "Extreme"
+  },
+  {
+    "Name": "Ralph Lauren T-Shirt",
+    "Price": 800,
+    "PictureURL": "images/products/ralph-lauren-tshirt.jpg",
+    "ProductTypeId": 1,
+    "ProductBrandId": 6,
+    "Rarity" : "Extreme"
+  }
+]
