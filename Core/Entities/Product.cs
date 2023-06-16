@@ -2,9 +2,7 @@ namespace Core.Entities
 {
     public class Product : SuperEntity
     {
-  
-
-        // Other columns in Product table
+        // Columns in Product table
         public string Name { get; set; }
 
         public string Rarity { get; set; }

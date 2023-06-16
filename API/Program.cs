@@ -19,7 +19,9 @@ builder.Services.AddDbContext<StoreContext>(opt =>
     opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
-builder.Services.AddScoped<InterfaceRepository, Repository>();
+
+builder.Services.AddScoped(typeof(InterfaceRepository<>), typeof(Repository<>));
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 // Build the web appliction instance
 var app = builder.Build();
@@ -30,7 +32,10 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+
 }
+
+app.UseStaticFiles();
 
 app.UseAuthorization();
 

@@ -1,27 +1,17 @@
 using Core.Entities;
+using Core.Specifications;
 
 namespace Core.Interfaces
 {
-    public interface InterfaceRepository
+    public interface InterfaceRepository<T> where T : SuperEntity
     {
-        Task<Product> GetProductIdAsync(int id);
+        // Products and Pokemons by id
+        Task<T> GetByIdAsync(int id);
+
+        Task<IReadOnlyList<T>> GetListByGeneric();
+
+        Task<T> GetEntityWithSpecification(InterfaceSpecification<T> specifications);
         
-        // Return a list which cannot be modified only read from
-        Task<IReadOnlyList<Product>> GetProductsAsync();
-
-        Task<IReadOnlyList<ProductType>> GetProductTypesAsync();
-        
-        Task<IReadOnlyList<ProductBrand>> GetProductBrandsAsync();
-
-        
-        Task<Pokemon> GetPokemonNameAsync(string name);
-
-        // Return a list which cannot be modified only read from
-        Task<IReadOnlyList<Pokemon>> GetPokemonsAsync();
-
-        Task<IReadOnlyList<PokemonType>> GetPokemonTypesAsync();
-        
-        Task<IReadOnlyList<PokemonAbilitie>> GetPokemonAbilitiesAsync();
-
+        Task<IReadOnlyList<T>> GetListWithSpecification(InterfaceSpecification<T> specifications);
     }
 }
