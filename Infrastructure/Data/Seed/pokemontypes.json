@@ -1,0 +1,18 @@
+[
+  {
+    "Id" : 1,
+    "Name" : "Dark"
+  },
+  {
+    "Id" : 2,
+    "Name" : "Psychic"
+  },
+  {
+    "Id" : 3,
+    "Name" : "Fire"
+  },
+  {
+    "Id" : 4,
+    "Name" : "Normal"
+  }
+]

@@ -1,7 +1,9 @@
+using API.DTO;
+using AutoMapper;
 using Core.Entities;
-using Infrastructure.Data;
+using Core.Interfaces;
+using Core.Specifications;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
@@ -9,24 +11,57 @@ namespace API.Controllers
     [Route("api/[controller]")]
     public class PokemonsController : ControllerBase
     {
-        private readonly StoreContext context;
-        public PokemonsController(StoreContext context)
+        private readonly InterfaceRepository<PokemonAbilitie> pokemonsAbilitiesRepository;
+        private readonly InterfaceRepository<PokemonType> pokemonsTypeRepository;
+        private readonly InterfaceRepository<Pokemon> pokemonsRepository;
+        private readonly IMapper mapper;
+        
+        public PokemonsController(InterfaceRepository<Pokemon> pokemonsRepository, 
+        InterfaceRepository<PokemonType> pokemonsTypeRepository, 
+        InterfaceRepository<PokemonAbilitie> pokemonsAbilitiesRepository,
+        IMapper mapper)
         {
-            this.context = context;
+            this.pokemonsRepository = pokemonsRepository;
+            this.pokemonsTypeRepository = pokemonsTypeRepository;
+            this.pokemonsAbilitiesRepository = pokemonsAbilitiesRepository; 
+            this.mapper = mapper;
         }
     
         // Return Products in JSON format
         [HttpGet]
-        public async Task<ActionResult<List<Pokemon>>> GetPokemons()
+        public async Task<ActionResult<IReadOnlyList<PokemonDTO>>> GetPokemons()
         {
-            return await this.context.Pokemons.ToListAsync();
+            var specification = new PokemonsWithTypesAndAbilitiesSpecification();
+
+            var pokemons = await this.pokemonsRepository.GetListWithSpecification(specification);
+
+            return Ok(this.mapper.Map<IReadOnlyList<Pokemon>, IReadOnlyList<PokemonDTO>>(pokemons));
         }
 
         // Return a product in JSON format, given a route of the product requested 
         [HttpGet("{name}")]
-        public async Task<ActionResult<Pokemon>> GetPokemon(string name)
+        public async Task<ActionResult<PokemonDTO>> GetPokemon(string name)
         {
-            return await this.context.Pokemons.FirstOrDefaultAsync(pokemon => pokemon.Name == name);
+            var specification = new PokemonsWithTypesAndAbilitiesSpecification(name);
+
+            var pokemon = await this.pokemonsRepository.GetEntityWithSpecification(specification);
+
+            return Ok(this.mapper.Map<Pokemon, PokemonDTO>(pokemon));
         }
+
+        [HttpGet("types")]
+        public async Task<ActionResult<IReadOnlyList<PokemonType>>> GetPokemonTypes()
+        {
+            return Ok(await this.pokemonsTypeRepository.GetListByGeneric());
+        }
+
+        [HttpGet("abilities")]
+        public async Task<ActionResult<IReadOnlyList<PokemonAbilitie>>> GetPokemonAbilities()
+        {
+            return Ok(await this.pokemonsAbilitiesRepository.GetListByGeneric());
+        }
+
+        
+
     }
 }

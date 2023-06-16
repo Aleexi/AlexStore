@@ -476,5 +476,7 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 API/appsettings.json
-API/alexstore.db-shm
 API/alexstore.db-wal
+API/alexstore.db-shm
+Infrastructure/Data/Config/ProductConfiguration.cs
+Infrastructure/Data/Config/PokemonConfiguration.cs
