@@ -1,4 +1,5 @@
 using API.DTO;
+using API.Errors;
 using AutoMapper;
 using Core.Entities;
 using Core.Interfaces;
@@ -7,9 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class PokemonsController : ControllerBase
+    public class PokemonsController : SuperController
     {
         private readonly InterfaceRepository<PokemonAbilitie> pokemonsAbilitiesRepository;
         private readonly InterfaceRepository<PokemonType> pokemonsTypeRepository;
@@ -40,11 +39,17 @@ namespace API.Controllers
 
         // Return a product in JSON format, given a route of the product requested 
         [HttpGet("{name}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
         public async Task<ActionResult<PokemonDTO>> GetPokemon(string name)
         {
             var specification = new PokemonsWithTypesAndAbilitiesSpecification(name);
 
             var pokemon = await this.pokemonsRepository.GetEntityWithSpecification(specification);
+
+            if (pokemon == null){
+                return NotFound(new ApiResponse(404));
+            }
 
             return Ok(this.mapper.Map<Pokemon, PokemonDTO>(pokemon));
         }
