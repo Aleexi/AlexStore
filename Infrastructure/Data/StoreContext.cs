@@ -26,13 +26,24 @@ namespace Infrastructure.Data
         public DbSet<PokemonType> PokemonTypes{ get; set; }
 
         // If configurations should be applied 
-        /*
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-        }
-        */
 
+            // Check which entities has the property Decimal, convert it to double. Only in the case of a SQLite database
+            if (Database.ProviderName == "Microsoft.EntityFrameworkCore.Sqlite")
+            {
+                foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+                {
+                    var properties = entityType.ClrType.GetProperties().Where(p => p.PropertyType == typeof(decimal));
+
+                    foreach (var property in properties)
+                    {
+                        modelBuilder.Entity(entityType.Name).Property(property.Name).HasConversion<double>();
+                    }
+                }
+            }
+        }
     }
 }

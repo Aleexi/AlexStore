@@ -10,8 +10,10 @@ namespace Core.Interfaces
 
         Task<IReadOnlyList<T>> GetListByGeneric();
 
-        Task<T> GetEntityWithSpecification(InterfaceSpecification<T> specifications);
+        Task<T> GetEntityWithSpecification(Specification<T> specifications);
         
-        Task<IReadOnlyList<T>> GetListWithSpecification(InterfaceSpecification<T> specifications);
+        Task<IReadOnlyList<T>> GetListWithSpecification(Specification<T> specifications);
+
+        Task<int> CountAsync(Specification<T> specification);
     }
 }

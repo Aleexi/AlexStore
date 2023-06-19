@@ -6,17 +6,34 @@ namespace Infrastructure.Data
 {
     public class SpecificationEvaulation<T> where T : SuperEntity
     {
-        public static IQueryable<T> GetQuery(IQueryable<T> inputQuery, InterfaceSpecification<T> specification)
+        // Andra parametern var InterfaceSpecification från början! om så behövs ändra tillbaka
+        public static IQueryable<T> GetQuery(IQueryable<T> inputQuery, Specification<T> specification)
         {
+            var builtQuery = inputQuery;
+
             // p => p.Id = id
             if (specification.Condition != null){
-                inputQuery = inputQuery.Where(specification.Condition);
+                builtQuery = builtQuery.Where(specification.Condition);
+            }
+
+            if (specification.OrderBy != null){
+                builtQuery = builtQuery.OrderBy(specification.OrderBy);
+            }
+
+            else if (specification.OrderByDescending != null){
+                builtQuery = builtQuery.OrderByDescending(specification.OrderByDescending);
+
+            }
+
+            if (specification.isPagingEnabled)
+            {
+                builtQuery = builtQuery.Skip(specification.Skip).Take(specification.Take);
             }
 
             // Creating the .Include(p => p.ProductType).Include(p => p.ProductBrand)
-            inputQuery = specification.IncludesList.Aggregate(inputQuery, (current, include) => current.Include(include));
+            builtQuery = specification.IncludesList.Aggregate(builtQuery, (current, include) => current.Include(include));
 
-            return inputQuery;
+            return builtQuery;
         }
     }
 }

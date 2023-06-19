@@ -1,5 +1,6 @@
 using API.DTO;
 using API.Errors;
+using API.Helpers;
 using AutoMapper;
 using Core.Entities;
 using Core.Interfaces;
@@ -28,13 +29,19 @@ namespace API.Controllers
     
         // Return Products in JSON format
         [HttpGet]
-        public async Task<ActionResult<IReadOnlyList<PokemonDTO>>> GetPokemons()
+        public async Task<ActionResult<Pagination<PokemonDTO>>> GetPokemons([FromQuery] PokemonSpecificationParams pokemonParams)
         {
-            var specification = new PokemonsWithTypesAndAbilitiesSpecification();
+            var specification = new PokemonsWithTypesAndAbilitiesSpecification(pokemonParams);
+
+            var countSpecification = new PokemonWithFiltersForCountSpecification(pokemonParams);
+
+            var totalItems = await this.pokemonsRepository.CountAsync(countSpecification);
 
             var pokemons = await this.pokemonsRepository.GetListWithSpecification(specification);
 
-            return Ok(this.mapper.Map<IReadOnlyList<Pokemon>, IReadOnlyList<PokemonDTO>>(pokemons));
+            var data = this.mapper.Map<IReadOnlyList<Pokemon>, IReadOnlyList<PokemonDTO>>(pokemons);
+
+            return Ok(new Pagination<PokemonDTO>(pokemonParams.PageIndex, pokemonParams.PageSize, totalItems, data));
         }
 
         // Return a product in JSON format, given a route of the product requested 
@@ -43,7 +50,7 @@ namespace API.Controllers
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
         public async Task<ActionResult<PokemonDTO>> GetPokemon(string name)
         {
-            var specification = new PokemonsWithTypesAndAbilitiesSpecification(name);
+            var specification = new PokemonsWithTypesAndAbilitiesSpecification(name, null);
 
             var pokemon = await this.pokemonsRepository.GetEntityWithSpecification(specification);
 
@@ -65,8 +72,5 @@ namespace API.Controllers
         {
             return Ok(await this.pokemonsAbilitiesRepository.GetListByGeneric());
         }
-
-        
-
     }
 }

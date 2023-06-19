@@ -1,6 +1,7 @@
 using API.DTO;
 using API.Errors;
 using AutoMapper;
+using API.Helpers;
 using Core.Entities;
 using Core.Interfaces;
 using Core.Specifications;
@@ -29,13 +30,19 @@ namespace API.Controllers
 
         // Return Products in JSON format or List
         [HttpGet]
-        public async Task<ActionResult<IReadOnlyList<ProductDTO>>> GetProducts()
+        public async Task<ActionResult<Pagination<ProductDTO>>> GetProducts([FromQuery] ProductSpecificationParams productParams)
         {
-            var specification = new ProductsWithTypesAndBrandsSpecification();
+            var specification = new ProductsWithTypesAndBrandsSpecification(productParams);
+
+            var countSpecification = new ProductWithFiltersForCountSpecification(productParams);
+
+            var totalItems = await this.productsRepository.CountAsync(countSpecification);
 
             var products = await this.productsRepository.GetListWithSpecification(specification);
 
-            return Ok(this.mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductDTO>>(products));
+            var data = this.mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductDTO>>(products);
+
+            return Ok(new Pagination<ProductDTO>(productParams.PageIndex, productParams.PageSize, totalItems, data));
         }
 
         // Return a product in JSON format, given a route of the product requested 
