@@ -22,19 +22,28 @@ namespace Infrastructure.Data
             return await this.context.Set<T>().ToListAsync();
         }
 
-        public async Task<T> GetEntityWithSpecification(InterfaceSpecification<T> specifications)
+        public async Task<T> GetEntityWithSpecification(Specification<T> specifications)
         {
             var result = await ApplySpecification(specifications).FirstOrDefaultAsync();
             return result;
         }
-        public async Task<IReadOnlyList<T>> GetListWithSpecification(InterfaceSpecification<T> specifications)
+
+        public async Task<IReadOnlyList<T>> GetListWithSpecification(Specification<T> specifications)
         {
             var result = await ApplySpecification(specifications).ToListAsync();
             return result;
         }
-        private IQueryable<T> ApplySpecification(InterfaceSpecification<T> specifications)
+
+        public async Task<int> CountAsync(Specification<T> specification)
+        {
+            return await ApplySpecification(specification).CountAsync();
+        }
+        
+        private IQueryable<T> ApplySpecification(Specification<T> specifications)
         {
             return SpecificationEvaulation<T>.GetQuery(this.context.Set<T>().AsQueryable(), specifications);
         }
+
+        
     }
 }

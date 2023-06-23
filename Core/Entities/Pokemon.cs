@@ -6,6 +6,8 @@ namespace Core.Entities
 
         public int Strength { get; set; }
 
+        public string PictureURL { get; set; }
+
         // Entity framework creates foreign key connected to the table PokemonTypes
         public PokemonType PokemonType { get; set; }
 
@@ -14,8 +16,6 @@ namespace Core.Entities
         // Entity framework creates foreign key connected to the table PokemonAbilities
         public PokemonAbilitie PokemonAbilitie { get; set; }
 
-        public int PokemonAbilitieId { get; set; }
-
-        public string PictureURL { get; set; }
+        public int PokemonAbilitieId { get; set; }        
     }
 }

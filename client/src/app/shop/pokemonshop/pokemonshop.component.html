@@ -1,0 +1,68 @@
+<div class="conta">
+    <div class="row">
+        <section class="col-3">
+            <h5 class="text-warning ms-3">Sort</h5>
+            <select class="form-select mb-4" (change)="onSortSelected($event)">
+                <option *ngFor="let sort of sortAlternatives" [value]="sort.ApiValue">
+                    {{sort.name}}
+                </option>
+            </select>
+
+            <h5 class="text-warning ms-3">Types</h5>
+            <ul class="list-group my-3">
+                <li class="list-group-item" 
+                *ngFor="let type of types"
+                [class.active]="type.id === pokemonParams.typeId"
+                [value]="type.id"
+                (click)="onTypeSelected(type.id)"
+                >{{type.name}}</li>
+            </ul>
+            <h5 class="text-warning ms-3">Abilities</h5>
+            <ul class="list-group my-3">
+                <li class="list-group-item" 
+                *ngFor="let ability of abilities"
+                [class.active]="ability.id === pokemonParams.abilityId"
+                [value]="ability.id"
+                (click)="onAbilitySelected(ability.id)"
+                >{{ability.name}}</li>
+            </ul>
+        </section>
+        <section class="col-9">
+            <div class="d-flex justify-content-between align-items-center pb-2">
+                <header>
+                    <span *ngIf="Count > 0">
+                        Showing 
+                        <strong>
+                            {{ (pokemonParams.pageNumber - 1) * pokemonParams.pageSize + 1 }} - 
+                            {{ pokemonParams.pageNumber * pokemonParams.pageSize > Count ? Count : pokemonParams.pageNumber * pokemonParams.pageSize }}
+                        </strong> of <strong>{{Count}}</strong> Results
+                    </span>
+                    <span *ngIf="Count === 0">There are <strong>no</strong> results to be shown</span>
+                </header>
+                <div class="d-flex mt-2">
+                    <input type="text" placeholder="Search" class="form-control me-2">
+                    <button class="btn btn-outline-primary mx-2">Search</button>
+                    <button class="btn btn-outline-success">Reset</button>
+                </div>
+            </div>
+            <div class="row row-cols-3 g-3 mb-4">
+                <div class="col" *ngFor="let pokemon of pokemons">
+                    <app-pokemonitem [pokemon]="pokemon"></app-pokemonitem>
+                </div>
+            </div>
+            <div class="d-flex justify-content-center" *ngIf="Count > 0">
+                <pagination 
+                [boundaryLinks]="true"
+                [totalItems]="Count"
+                [itemsPerPage]="pokemonParams.pageSize"
+                [maxSize]="3"
+                (pageChanged)="onPageChanged($event)"
+                previousText="&lsaquo;" 
+                nextText="&rsaquo;" 
+                firstText="&laquo;" 
+                lastText="&raquo;">
+                </pagination>
+            </div>
+        </section>
+    </div>
+</div>

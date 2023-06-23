@@ -26,5 +26,103 @@
     "PictureURL" : "images/pokemons/arceus.jpg",
     "PokemonTypeId" : 4,
     "PokemonAbilitieId" : 4
+  },
+  {
+    "Name": "Pikachu",
+    "Strength": 30,
+    "PictureURL": "images/pokemons/pikachu.jpg",
+    "PokemonTypeId": 2,
+    "PokemonAbilitieId": 1
+  },
+  {
+    "Name": "Gyarados",
+    "Strength": 80,
+    "PictureURL": "images/pokemons/gyarados.jpg",
+    "PokemonTypeId": 3,
+    "PokemonAbilitieId": 2
+  },
+  {
+    "Name": "Bulbasaur",
+    "Strength": 20,
+    "PictureURL": "images/pokemons/bulbasaur.jpg",
+    "PokemonTypeId": 1,
+    "PokemonAbilitieId": 3
+  },
+  {
+    "Name": "Gengar",
+    "Strength": 70,
+    "PictureURL": "images/pokemons/gengar.jpg",
+    "PokemonTypeId": 4,
+    "PokemonAbilitieId": 1
+  },
+  {
+    "Name": "Dragonite",
+    "Strength": 90,
+    "PictureURL": "images/pokemons/dragonite.jpg",
+    "PokemonTypeId": 3,
+    "PokemonAbilitieId": 4
+  },
+  {
+    "Name": "Squirtle",
+    "Strength": 25,
+    "PictureURL": "images/pokemons/squirtle.jpg",
+    "PokemonTypeId": 2,
+    "PokemonAbilitieId": 2
+  },
+  {
+    "Name": "Lucario",
+    "Strength": 60,
+    "PictureURL": "images/pokemons/lucario.jpg",
+    "PokemonTypeId": 1,
+    "PokemonAbilitieId": 4
+  },
+  {
+    "Name": "Alakazam",
+    "Strength": 65,
+    "PictureURL": "images/pokemons/alakazam.jpg",
+    "PokemonTypeId": 4,
+    "PokemonAbilitieId": 3
+  },
+  {
+    "Name": "Machamp",
+    "Strength": 70,
+    "PictureURL": "images/pokemons/machamp.jpg",
+    "PokemonTypeId": 3,
+    "PokemonAbilitieId": 1
+  },
+  {
+    "Name": "Jolteon",
+    "Strength": 55,
+    "PictureURL": "images/pokemons/jolteon.jpg",
+    "PokemonTypeId": 2,
+    "PokemonAbilitieId": 4
+  },
+  {
+    "Name": "Tyranitar",
+    "Strength": 95,
+    "PictureURL": "images/pokemons/tyranitar.jpg",
+    "PokemonTypeId": 1,
+    "PokemonAbilitieId": 2
+  },
+  {
+    "Name": "Lugia",
+    "Strength": 120,
+    "PictureURL": "images/pokemons/lugia.jpg",
+    "PokemonTypeId": 4,
+    "PokemonAbilitieId": 1
+  },
+  {
+    "Name": "Greninja",
+    "Strength": 85,
+    "PictureURL": "images/pokemons/greninja.jpg",
+    "PokemonTypeId": 3,
+    "PokemonAbilitieId": 3
+  },
+  {
+    "Name": "Eevee",
+    "Strength": 35,
+    "PictureURL": "images/pokemons/eevee.jpg",
+    "PokemonTypeId": 2,
+    "PokemonAbilitieId": 1
   }
 ]

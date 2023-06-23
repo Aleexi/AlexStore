@@ -46,5 +46,53 @@
     "ProductTypeId": 1,
     "ProductBrandId": 6,
     "Rarity" : "Extreme"
+  },
+  {
+    "Name": "Ralph Lauren Hoodie",
+    "Price": 1750,
+    "PictureURL": "images/products/ralph-lauren-hoodie.jpg",
+    "ProductTypeId": 5,
+    "ProductBrandId": 6,
+    "Rarity" : "Extreme"
+  },
+  {
+    "Name": "Hugo boss Hoodie",
+    "Price": 1100,
+    "PictureURL": "images/products/hugo-boss-hoodie.jpg",
+    "ProductTypeId": 5,
+    "ProductBrandId": 5,
+    "Rarity" : "Extreme"
+  },
+  {
+    "Name": "Armani Jeans",
+    "Price": 1600,
+    "PictureURL": "images/products/armani-jeans.jpg",
+    "ProductTypeId": 2,
+    "ProductBrandId": 1,
+    "Rarity" : "Extreme"
+  },
+  {
+    "Name": "Gant Sweatshirt",
+    "Price": 500,
+    "PictureURL": "images/products/gant-sweatshirt.jpg",
+    "ProductTypeId": 3,
+    "ProductBrandId": 2,
+    "Rarity" : "Extreme"
+  },
+  {
+    "Name": "Armani Hat",
+    "Price": 2200,
+    "PictureURL": "images/products/armani-hat.jpg",
+    "ProductTypeId": 4,
+    "ProductBrandId": 1,
+    "Rarity" : "Extreme"
+  },
+  {
+    "Name": "Gant T-Shirt",
+    "Price": 800,
+    "PictureURL": "images/products/gant-tshirt.jpg",
+    "ProductTypeId": 1,
+    "ProductBrandId": 2,
+    "Rarity" : "Extreme"
   }
 ]
