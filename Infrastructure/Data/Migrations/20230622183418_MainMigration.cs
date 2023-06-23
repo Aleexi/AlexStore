@@ -68,11 +68,11 @@ namespace Infrastructure.Data.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", nullable: true),
+                    Name = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
                     Strength = table.Column<int>(type: "INTEGER", nullable: false),
+                    PictureURL = table.Column<string>(type: "TEXT", nullable: true),
                     PokemonTypeId = table.Column<int>(type: "INTEGER", nullable: false),
-                    PokemonAbilitieId = table.Column<int>(type: "INTEGER", nullable: false),
-                    PictureURL = table.Column<string>(type: "TEXT", nullable: true)
+                    PokemonAbilitieId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -97,10 +97,10 @@ namespace Infrastructure.Data.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", nullable: true),
+                    Name = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
                     Rarity = table.Column<string>(type: "TEXT", nullable: true),
-                    Price = table.Column<decimal>(type: "TEXT", nullable: false),
-                    PictureURL = table.Column<string>(type: "TEXT", nullable: true),
+                    Price = table.Column<double>(type: "decimal(15,3)", nullable: false),
+                    PictureURL = table.Column<string>(type: "TEXT", nullable: false),
                     ProductTypeId = table.Column<int>(type: "INTEGER", nullable: false),
                     ProductBrandId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
