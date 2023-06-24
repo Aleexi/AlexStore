@@ -38,6 +38,10 @@ export class ShopService {
 
     params = params.append('pageIndex', productParams.pageNumber);
     params = params.append('pageSize', productParams.pageSize);
+
+    if (productParams.search !== '') {
+      params = params.append('search', productParams.search);
+    }
   
     return this.http.get<Pagination<Product[]>>(this.baseUrl + 'products', { params: params });
   }
@@ -71,6 +75,10 @@ export class ShopService {
 
     params = params.append('pageIndex', pokemonParams.pageNumber);
     params = params.append('pageSize', pokemonParams.pageSize);
+
+    if (pokemonParams.search !== '') {
+      params = params.append('search', pokemonParams.search);
+    }
 
     return this.http.get<Pagination<Pokemon[]>>(this.baseUrl + 'pokemons', { params: params });
   }

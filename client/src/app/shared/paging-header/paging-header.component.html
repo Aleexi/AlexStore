@@ -1,0 +1,10 @@
+<header *ngIf="Count && pageNumber && pageSize">
+    <span *ngIf="Count > 0">
+        Showing 
+        <strong>
+            {{ (pageNumber - 1) * pageSize + 1 }} - 
+            {{ pageNumber * pageSize > Count ? Count : pageNumber * pageSize }}
+        </strong> of <strong>{{Count}}</strong> Results
+    </span>
+    <span *ngIf="Count === 0">There are <strong>no</strong> results to be shown</span>
+</header>
