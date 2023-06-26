@@ -1,0 +1,15 @@
+<div class="row" *ngIf="pokemon"> 
+    <div class="col-6">
+        <img src="{{pokemon.pictureURL}}" alt="{{pokemon.name}}" class="w-100">
+    </div>
+    <div class="col-6 mt-2">
+        <h2 style="margin-left: 100px;">{{pokemon.name}}</h2>
+        <p style="margin-left: 100px;">{{pokemon.strength | currency}}</p>
+        <div class="d-flex justify-content-start align-items-center" style="margin-left: 100px;">
+            <i class="fa fa-minus-circle me-2" style="cursor: pointer; font-size: 2em; color: purple;"></i>
+            <span class="font-weight-bold" style="font-size: 1.5em;">3</span>
+            <i class="fa fa-plus-circle ms-2" style="cursor: pointer; font-size: 2em; color: purple;"></i>
+            <button class="btn btn-outline-secondary ms-4">Add To Basket</button>
+        </div>
+    </div>
+</div>
