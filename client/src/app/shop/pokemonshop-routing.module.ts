@@ -10,7 +10,8 @@ const routes: Routes = [
   },
   {
     path: ':name',
-    component: PokemonDetailsComponent
+    component: PokemonDetailsComponent,
+    data: {breadcrumb: {alias: 'pokemonDetailsName'}}
   }
 ];
 
