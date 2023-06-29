@@ -12,9 +12,9 @@ namespace API.Controllers
             this.basketRepository = basketRepository;
         }
 
-        [HttpGet("{basketId}")]
-        public async Task<ActionResult<CustomerBasket>> GetBasketById(string basketId) {
-
+        [HttpGet]
+        public async Task<ActionResult<CustomerBasket>> GetBasketById([FromQuery] string basketId) {
+            
             var basket = await this.basketRepository.GetBasketAsync(basketId);
 
             if (basket != null) {
@@ -22,14 +22,16 @@ namespace API.Controllers
             }
             return new CustomerBasket(basketId);
         }
+
         [HttpPost]
         public async Task<ActionResult<CustomerBasket>> UpdateBasket(CustomerBasket basket) {
             var UpdateBasket = await this.basketRepository.UpdateOrCreateBasketAsync(basket);
 
             return Ok(UpdateBasket);
         }
-        [HttpDelete("{basketId}")]
-        public async Task DeleteBasket(string basketId) {
+        
+        [HttpDelete]
+        public async Task DeleteBasket([FromQuery] string basketId) {
             await this.basketRepository.DeleteBasketAsync(basketId);
         }
     }
