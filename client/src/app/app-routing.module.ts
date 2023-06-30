@@ -32,6 +32,10 @@ const routes: Routes = [
     loadChildren: () => import('./shop/pokemonshop.module').then(x => x.PokemonshopModule) 
   },
   {
+    path: 'basket',
+    loadChildren: () => import('./basket/basket.module').then(x => x.BasketModule) 
+  },
+  {
     path: '**',
     redirectTo: '',
     pathMatch: 'full'
