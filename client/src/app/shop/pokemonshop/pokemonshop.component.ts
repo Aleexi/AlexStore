@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Pokemon } from '../../shared/models/pokemon';
 import { ShopService } from '../shop.service';
 import { Ability } from 'src/app/shared/models/ability';
@@ -21,6 +21,7 @@ export class PokemonshopComponent implements OnInit{
     {name: 'Strength Descending', ApiValue: 'strengthDesc'}
   ];
   Count : number = 0;
+  @ViewChild('search') search?: ElementRef;
 
   /* Inject and use our ShopService into our pokemonshop component */
   constructor(private shopService: ShopService) {}
@@ -63,6 +64,7 @@ export class PokemonshopComponent implements OnInit{
   {
     if (this.pokemonParams.typeId !== typeId){
       this.pokemonParams.typeId = typeId;
+      this.pokemonParams.pageNumber = 1;
       this.getPokemons();
     }
   }
@@ -71,6 +73,7 @@ export class PokemonshopComponent implements OnInit{
   {
     if (this.pokemonParams.abilityId !== abilityId) {
       this.pokemonParams.abilityId = abilityId;
+      this.pokemonParams.pageNumber = 1;
       this.getPokemons();
     }
     
@@ -82,9 +85,23 @@ export class PokemonshopComponent implements OnInit{
     }
   }
   onPageChanged(event: any) {
-    if (this.pokemonParams.pageNumber !== event.page) {
-      this.pokemonParams.pageNumber = event.page;
+    if (this.pokemonParams.pageNumber !== event) {
+      this.pokemonParams.pageNumber = event;
       this.getPokemons();
     }
+  }
+
+  onSearch() {
+    this.pokemonParams.search = this.search?.nativeElement.value;
+    this.pokemonParams.pageNumber = 1;
+    this.getPokemons();
+  }
+
+  onReset() {
+    if (this.search) {
+      this.search.nativeElement.value = '';
+    }
+    this.pokemonParams = new PokemonParams();
+    this.getPokemons();
   }
 }

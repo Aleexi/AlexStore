@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Product } from '../../shared/models/product';
 import { ShopService } from '../shop.service';
 import { Brand } from 'src/app/shared/models/brand';
@@ -21,6 +21,7 @@ export class ProductshopComponent implements OnInit{
     {name: 'Price Descending', ApiValue: 'priceDesc'}
   ];
   Count: number = 0;
+  @ViewChild('search') search?: ElementRef;
 
   /* Inject and use our ShopService into our productshop component */
   constructor(private shopService: ShopService) {}
@@ -64,6 +65,7 @@ export class ProductshopComponent implements OnInit{
   {
     if (this.productParams.typeId !== typeId){
       this.productParams.typeId = typeId;
+      this.productParams.pageNumber = 1;
       this.getProducts();
     }
     
@@ -73,6 +75,7 @@ export class ProductshopComponent implements OnInit{
   {
     if (this.productParams.brandId !== brandId){
       this.productParams.brandId = brandId;
+      this.productParams.pageNumber = 1;
       this.getProducts();
     }
   }
@@ -85,9 +88,23 @@ export class ProductshopComponent implements OnInit{
   }
 
   onPageChanged(event: any) {
-    if (this.productParams.pageNumber !== event.page){
-      this.productParams.pageNumber = event.page;
+    if (this.productParams.pageNumber !== event){
+      this.productParams.pageNumber = event;
       this.getProducts();
     }
+  }
+
+  onSearch() {
+    this.productParams.search = this.search?.nativeElement.value;
+    this.productParams.pageNumber = 1;
+    this.getProducts();
+  }
+
+  onReset() {
+    if (this.search) {
+      this.search.nativeElement.value = '';
+    }
+    this.productParams = new ProductParams();
+    this.getProducts();
   }
 }
