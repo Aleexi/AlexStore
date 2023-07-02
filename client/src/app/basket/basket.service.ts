@@ -43,38 +43,59 @@ export class BasketService {
 
   /* Adding Item to the Basket */
 
-  addProductItemToBasket(item: Product, quantity = 1) {
-    let basketItemToAdd = this.mapProductToBasketItem(item); 
+  addItemToBasket(item: Product | Pokemon | BasketItem, quantity = 1) {
+
+    /* We know it is a type of product */
+    if (this.isProduct(item)) {
+      item = this.mapToBasketItem(item); 
+    }
+
+    /* We know it is a type of pokemon */
+    else if (this.isPokemon(item)) {
+      item = this.mapToBasketItem(item); 
+    }
 
     let basket = this.getBasketData() ?? this.createBasket();
-    console.log(this.getBasketData())
 
-    basket.items = this.addOrUpdateItems(basket.items, basketItemToAdd, quantity);
+    basket.items = this.addOrUpdateItems(basket.items, item, quantity);
     this.setBasketToApi(basket);
   }
 
-  addPokemonItemToBasket(item: Pokemon, quantity = 1) {
-    let basketItemToAdd = this.mapPokemonToBasketItem(item); 
-
-    let basket = this.getBasketData() ?? this.createBasket();
-
-    basket.items = this.addOrUpdateItems(basket.items, basketItemToAdd, quantity);
-    this.setBasketToApi(basket);
+  removeItemFromBasket(id: number, quantity = 1){
+    let basket = this.getBasketData();
+    if (!basket) {
+      return;
+    }
+    let item = basket.items.find(x => x.id === id);
+    if (item) {
+      item.quantity -= quantity;
+      // If quantity of item is 0, remove it 
+      if (item.quantity === 0) {
+        basket.items = basket.items.filter(x => x.id !== id);
+      }
+      if (basket.items.length > 0) {
+        this.setBasketToApi(basket);
+      }
+      else {
+        this.deleteBasket(basket);
+      }
+    }
   }
+  
 
-  private addOrUpdateItems(currentItems: BasketItem[], basketItemToAdd: BasketItem, quantity: number): BasketItem[] {
+  private addOrUpdateItems(currentItems: BasketItem[], item: BasketItem, quantity: number): BasketItem[] {
     /* Check if the Basket Item array contains the product that is being added */
-    let item = currentItems.find(x => x.id === basketItemToAdd.id);
+    let currentItem = currentItems.find(x => x.id === item.id);
 
     /* If it is increase quantity */
-    if (item) {
-      item.quantity += quantity;
+    if (currentItem) {
+      currentItem.quantity += quantity;
     }
 
     /* If not, add the item and the quantity */
     else {
-      basketItemToAdd.quantity = quantity;
-      currentItems.push(basketItemToAdd);
+      item.quantity = quantity;
+      currentItems.push(item);
     }
     return currentItems;
   }
@@ -85,30 +106,43 @@ export class BasketService {
     return basket;
   }
 
-  private mapProductToBasketItem(item: Product): BasketItem {
-    return {
-      id: item.id,
-      itemName: item.name,
-      itemPrice: item.price,
-      quantity: 0,
-      pictureUrl: item.pictureURL,
-      type: item.productType,
-      brand: item.productBrand,
-      abilitie: undefined
-    }
+  private deleteBasket(basket: Basket) {
+    return this.http.delete(this.baseUrl + 'basket?basketId=' + basket.id).subscribe({
+      next: () => {
+        // Make observables null/empty, since we are deleting the basket. 
+        this.basketSource.next(null);
+        this.basketTotalSource.next(null);
+        localStorage.removeItem('basketId');
+      }
+    })
   }
 
-  private mapPokemonToBasketItem(item: Pokemon): BasketItem {
-    return {
-      id: item.id,
-      itemName: item.name,
-      itemPrice: item.strength,
-      quantity: 0,
-      pictureUrl: item.pictureURL,
-      type: item.pokemonType,
-      brand: undefined,
-      abilitie: item.pokemonAbilitie
+  private mapToBasketItem(item: Product | Pokemon): BasketItem{
+    if (this.isProduct(item)) {
+      return {
+        id: item.id,
+        itemName: item.name,
+        itemPrice: item.price,
+        quantity: 0,
+        pictureUrl: item.pictureURL,
+        type: item.productType,
+        brand: item.productBrand,
+        abilitie: undefined
+      }
     }
+    else if (this.isPokemon(item)) {
+      return {
+        id: item.id,
+        itemName: item.name,
+        itemPrice: item.strength,
+        quantity: 0,
+        pictureUrl: item.pictureURL,
+        type: item.pokemonType,
+        brand: undefined,
+        abilitie: item.pokemonAbilitie
+      }
+    }
+    throw new Error('Invalid item');
   }
 
   private calculateTotals() {
@@ -116,11 +150,20 @@ export class BasketService {
     /* If there is no basket, return */
     if (!basket) return;
     
-    let shippingPrice = 0;
+    let shippingPrice = 4.99;
     let subtotal = basket.items.reduce((sum, item) => (item.itemPrice * item.quantity) + sum, 0);
     let total = subtotal + shippingPrice;
     this.basketTotalSource.next({
       shippingPrice, subtotal, total
     });
+  }
+
+  /* Typeguards */
+  private isProduct(item: Product | Pokemon | BasketItem): item is Product {
+    return (item as Product).productType !== undefined;
+  }
+
+  private isPokemon(item: Product | Pokemon | BasketItem): item is Pokemon {
+    return (item as Pokemon).pokemonType !== undefined;
   }
 }

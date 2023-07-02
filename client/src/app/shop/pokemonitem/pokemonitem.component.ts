@@ -13,6 +13,6 @@ export class PokemonitemComponent {
   constructor(private basketService: BasketService) {}
 
   addPokemonToBasket() {
-    if (this.pokemon) this.basketService.addPokemonItemToBasket(this.pokemon);
+    if (this.pokemon) this.basketService.addItemToBasket(this.pokemon);
   }
 }

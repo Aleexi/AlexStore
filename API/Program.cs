@@ -11,6 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 builder.Services.AddApplicationServices(builder.Configuration);
+builder.Services.AddIndentityServices(builder.Configuration);
 
 // Build the web appliction instance
 var app = builder.Build();

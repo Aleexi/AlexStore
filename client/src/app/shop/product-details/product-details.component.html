@@ -1,15 +1,28 @@
-<div class="row" *ngIf="product"> 
-    <div class="col-6">
-        <img src="{{product.pictureURL}}" alt="{{product.name}}" class="w-100">
-    </div>
-    <div class="col-6 mt-2">
-        <h1 style="margin-left: 100px;">{{product.name}}</h1>
-        <p style="margin-left: 100px; font-size: 2em;">{{product.price | currency}}</p>
-        <div class="d-flex justify-content-start align-items-center" style="margin-left: 100px;">
-            <i class="fa fa-minus-circle me-2" style="cursor: pointer; font-size: 2em; color: purple;"></i>
-            <span class="font-weight-bold" style="font-size: 1.5em;">3</span>
-            <i class="fa fa-plus-circle ms-2" style="cursor: pointer; font-size: 2em; color: purple;"></i>
-            <button class="btn btn-outline-secondary ms-4">Add To Basket</button>
+<div class="container">
+    <div class="row" *ngIf="product"> 
+        <div class="col-6">
+            <img src="{{product.pictureURL}}" alt="{{product.name}}" class="w-100">
+        </div>
+        <div class="col-6 mt-2">
+            <h1 style="margin-left: 100px;">{{product.name}}</h1>
+            <p style="margin-left: 100px; font-size: 2em;">{{product.price | currency}}</p>
+            <h5 class="text-primary mb-3 mt-3" style="margin-left: 100px; color: purple !important;" *ngIf="quantityInBasket > 0">There is {{quantityInBasket}} of this item in the basket</h5>
+            <div class="d-flex justify-content-start align-items-center" style="margin-left: 100px;">
+    
+                <i class="fa fa-minus-circle me-2" style="cursor: pointer; font-size: 2em; color: purple;" (click)="decrementQuantity()"
+                [class.disabled]="quantity <= 0"
+                ></i>
+                
+                <span class="font-weight-bold" style="font-size: 1.5em;">{{quantity}}</span>
+    
+                <i class="fa fa-plus-circle ms-2" style="cursor: pointer; font-size: 2em; color: purple;" (click)="incrementQuantity()"
+                
+                ></i>
+                <button class="btn btn-outline-primary ms-4 custom-button" (click)="updateBasket()"
+                [disabled]="quantity === quantityInBasket"
+                >{{buttonText | titlecase}}</button>
+            </div>
         </div>
     </div>
 </div>
+

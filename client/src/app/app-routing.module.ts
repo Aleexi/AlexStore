@@ -36,6 +36,10 @@ const routes: Routes = [
     loadChildren: () => import('./basket/basket.module').then(x => x.BasketModule) 
   },
   {
+    path: 'checkout',
+    loadChildren: () => import('./checkout/checkout.module').then(x => x.CheckoutModule) 
+  },
+  {
     path: '**',
     redirectTo: '',
     pathMatch: 'full'
