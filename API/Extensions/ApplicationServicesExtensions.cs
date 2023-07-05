@@ -1,6 +1,7 @@
 using API.Errors;
 using Core.Interfaces;
 using Infrastructure.Data;
+using Infrastructure.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using StackExchange.Redis;
@@ -11,9 +12,7 @@ namespace API.Extensions
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services,
         IConfiguration configuration){
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-        services.AddEndpointsApiExplorer();
-        services.AddSwaggerGen();
+            
 
         // Adding our DbContext "StoreContext" as a service, to the startup when launching our application
 
@@ -27,6 +26,7 @@ namespace API.Extensions
             return ConnectionMultiplexer.Connect(options);
         });
 
+        services.AddScoped<InterfaceTokenService, TokenService>();
         services.AddScoped<InterfaceBasketRepository, BasketRepository>();
         services.AddScoped(typeof(InterfaceRepository<>), typeof(Repository<>));
         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

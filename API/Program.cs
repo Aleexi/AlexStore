@@ -1,7 +1,10 @@
 // Creates an web application instance
 using API.Extensions;
 using API.Middleware;
+using Core.Entities.Identity;
 using Infrastructure.Data;
+using Infrastructure.Data.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +15,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddApplicationServices(builder.Configuration);
 builder.Services.AddIndentityServices(builder.Configuration);
+builder.Services.AddSwaggerDocumentation();
 
 // Build the web appliction instance
 var app = builder.Build();
@@ -22,17 +26,13 @@ app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseStatusCodePagesWithReExecute("/errors/{0}");
 
-
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwaggerDocumentation();
 
 app.UseStaticFiles();
 
 app.UseCors("CorsPolicy");
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
@@ -41,12 +41,17 @@ app.MapControllers();
 using var scoped = app.Services.CreateScope();
 var service = scoped.ServiceProvider;
 var context = service.GetRequiredService<StoreContext>();
+var identityContext = service.GetRequiredService<AppIdentityDbContext>();
+var userManager = service.GetRequiredService<UserManager<AppUser>>();
 var logger = service.GetRequiredService<ILogger<Program>>();
 
 try
 {
     await context.Database.MigrateAsync();
     await StoreContextSeed.SeedAsync(context);
+
+    await identityContext.Database.MigrateAsync();
+    await AppIdentityContextSeed.SeedAsync(userManager);
 }
 catch (Exception exception)
 {

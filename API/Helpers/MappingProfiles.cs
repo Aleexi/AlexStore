@@ -1,6 +1,7 @@
 using API.DTO;
 using AutoMapper;
 using Core.Entities;
+using Core.Entities.Identity;
 
 namespace API.Helpers
 {
@@ -17,6 +18,11 @@ namespace API.Helpers
                 .ForMember(p => p.PokemonType, x => x.MapFrom(d => d.PokemonType.Name))
                 .ForMember(p => p.PokemonAbilitie, x => x.MapFrom(d => d.PokemonAbilitie.Name))
                 .ForMember(p => p.PictureURL, x => x.MapFrom<PokemonUrlResolver>());
+            
+            CreateMap<Address, AddressDTO>().ReverseMap();
+
+            CreateMap<CustomerBasketDTO, CustomerBasket>();
+            CreateMap<BasketItemDTO, BasketItem>();
         }
     }
 }
