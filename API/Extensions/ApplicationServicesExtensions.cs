@@ -42,6 +42,7 @@ namespace API.Extensions
             };
         });
 
+        /* If we want to use HTTPS, switch from http -> https, and fix certificate */
         services.AddCors(options => {
             options.AddPolicy("CorsPolicy", policy => {
                 policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200");
