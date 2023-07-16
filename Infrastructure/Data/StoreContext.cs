@@ -1,6 +1,7 @@
 
 using System.Reflection;
 using Core.Entities;
+using Core.OrderAggregation;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Data
@@ -24,6 +25,12 @@ namespace Infrastructure.Data
         public DbSet<PokemonAbilitie> PokemonAbilities{ get; set; }
 
         public DbSet<PokemonType> PokemonTypes{ get; set; }
+
+        public DbSet<Order> Orders { get; set; }
+
+        public DbSet<OrderItem> OrderItems { get; set; }
+        
+        public DbSet<DelieveryMethod> DelieveryMethods { get; set; }
 
         // If configurations should be applied 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

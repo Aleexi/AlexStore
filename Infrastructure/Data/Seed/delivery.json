@@ -1,0 +1,23 @@
+[
+  {
+    "Id": 1,
+    "ShortName": "Postnord",
+    "Description": "Slow delievery",
+    "DelieveryTime": "3-4 Days",
+    "PriceOfDelievery": 1
+  },
+  {
+    "Id": 2,
+    "ShortName": "DHL",
+    "Description": "Normal Delievery",
+    "DelieveryTime": "2-3 Days",
+    "PriceOfDelievery": 5
+  },
+  {
+    "Id": 3,
+    "ShortName": "Express",
+    "Description": "Fast Delievery",
+    "DelieveryTime": "1 Day",
+    "PriceOfDelievery": 10
+  }
+]
