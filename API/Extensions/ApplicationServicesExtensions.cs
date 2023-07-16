@@ -27,6 +27,8 @@ namespace API.Extensions
         });
 
         services.AddScoped<InterfaceTokenService, TokenService>();
+        services.AddScoped<InterfaceOrderService, OrderService>();
+        services.AddScoped<InterfaceUnitOfWork, UnitOfWork>();
         services.AddScoped<InterfaceBasketRepository, BasketRepository>();
         services.AddScoped(typeof(InterfaceRepository<>), typeof(Repository<>));
         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

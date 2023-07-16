@@ -5,7 +5,6 @@ using API.Errors;
 using AutoMapper;
 using Core.Entities.Identity;
 using Core.Interfaces;
-using Infrastructure.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

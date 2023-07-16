@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, map } from 'rxjs';
+import { ReplaySubject, map, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { User } from '../shared/models/user';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -11,10 +11,38 @@ import { Router } from '@angular/router';
 
 export class AccountService {
   baseUrl: string = environment.apiUrl;
-  private currentUserSource = new BehaviorSubject<User | null>(null);
-  private currentUser$ = this.currentUserSource.asObservable();
+  private currentUserSource = new ReplaySubject<User | null>(1);
+  currentUser$ = this.currentUserSource.asObservable();
 
   constructor(private http: HttpClient, private router: Router) { }
+
+  loadCurrentUser(JWToken: string | null) 
+  {
+    if (JWToken === null) {
+      this.currentUserSource.next(null);
+      return of(null);
+    }
+
+    let headers = new HttpHeaders;
+    headers = headers.set('Authorization', `Bearer ${JWToken}`);
+
+    return this.http.get<User>(this.baseUrl + 'account', {headers}).pipe(
+      map(user => {
+        if (user) {
+          /* Set JWToken we get back in localstorage from response */
+          localStorage.setItem('JWToken', user.JWToken);
+
+          /* Store user in observable */
+          this.currentUserSource.next(user);
+          return user;
+        }
+        else {
+          return null;
+        }
+        
+      })
+    )
+  }
 
   login (formValues : any) 
   {
@@ -48,7 +76,6 @@ export class AccountService {
     this.currentUserSource.next(null);
     localStorage.removeItem('JWToken');
     this.router.navigateByUrl('/')
-
   }
 
   checkIfEmailExists(email: string) 
