@@ -5,6 +5,7 @@ import { Basket, BasketItem, BasketTotals } from '../shared/models/basket';
 import { HttpClient } from '@angular/common/http';
 import { Product } from '../shared/models/product';
 import { Pokemon } from '../shared/models/pokemon';
+import { DelieveryMethod } from '../shared/models/delieveryMethod';
 
 @Injectable({
   providedIn: 'root'
@@ -13,12 +14,18 @@ export class BasketService {
   baseUrl = environment.apiUrl;
   private basketSource = new BehaviorSubject<Basket | null>(null);
   private basketTotalSource = new BehaviorSubject<BasketTotals | null>(null);
+  shipping = 0;
 
   /* Create an observable that components can use */
   basketSource$ = this.basketSource.asObservable();
   basketTotalSource$ = this.basketTotalSource.asObservable();
 
   constructor(private http: HttpClient) { }
+
+  setShippingPrice(delieveryMethod: DelieveryMethod) {
+    this.shipping = delieveryMethod.priceOfDelievery;
+    this.calculateTotals();
+  }
 
   /* Communication between client and API goes here */
 
@@ -81,7 +88,12 @@ export class BasketService {
       }
     }
   }
-  
+
+  deleteLocalBasket() {
+    this.basketSource.next(null);
+    this.basketTotalSource.next(null);
+    localStorage.removeItem('basketId');
+  }
 
   private addOrUpdateItems(currentItems: BasketItem[], item: BasketItem, quantity: number): BasketItem[] {
     /* Check if the Basket Item array contains the product that is being added */
@@ -109,10 +121,7 @@ export class BasketService {
   private deleteBasket(basket: Basket) {
     return this.http.delete(this.baseUrl + 'basket?basketId=' + basket.id).subscribe({
       next: () => {
-        // Make observables null/empty, since we are deleting the basket. 
-        this.basketSource.next(null);
-        this.basketTotalSource.next(null);
-        localStorage.removeItem('basketId');
+        this.deleteLocalBasket();
       }
     })
   }
@@ -150,11 +159,10 @@ export class BasketService {
     /* If there is no basket, return */
     if (!basket) return;
     
-    let shippingPrice = 4.99;
     let subtotal = basket.items.reduce((sum, item) => (item.itemPrice * item.quantity) + sum, 0);
-    let total = subtotal + shippingPrice;
+    let total = subtotal + this.shipping;
     this.basketTotalSource.next({
-      shippingPrice, subtotal, total
+      shippingPrice: this.shipping, subtotal, total
     });
   }
 

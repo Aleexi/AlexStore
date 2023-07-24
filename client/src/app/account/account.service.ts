@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ReplaySubject, map, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { User } from '../shared/models/user';
+import { Address, User } from '../shared/models/user';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 
@@ -30,7 +30,7 @@ export class AccountService {
       map(user => {
         if (user) {
           /* Set JWToken we get back in localstorage from response */
-          localStorage.setItem('JWToken', user.JWToken);
+          localStorage.setItem('JWToken', user.jwToken);
 
           /* Store user in observable */
           this.currentUserSource.next(user);
@@ -49,7 +49,8 @@ export class AccountService {
     return this.http.post<User>(this.baseUrl + 'account/login', formValues).pipe(
       map(user => {
         /* Set JWToken we get back in localstorage from response */
-        localStorage.setItem('JWToken', user.JWToken);
+        console.log(user);
+        localStorage.setItem('JWToken', user.jwToken);
 
         /* Store user in observable */
         this.currentUserSource.next(user);
@@ -63,7 +64,7 @@ export class AccountService {
     return this.http.post<User>(this.baseUrl + 'account/register', formValues).pipe(
       map(user => {
         /* Set JWToken we get back in localstorage from response */
-        localStorage.setItem('JWToken',user.JWToken);
+        localStorage.setItem('JWToken',user.jwToken);
 
         /* Store user in observable */
         this.currentUserSource.next(user);
@@ -81,5 +82,13 @@ export class AccountService {
   checkIfEmailExists(email: string) 
   {
     return this.http.get<boolean>(this.baseUrl + 'account/emailexists?email=' + email);
+  }
+
+  getAddressFromApi() {
+    return this.http.get<Address>(this.baseUrl + 'account/address');
+  }
+
+  updateUserAddress(address: Address) {
+    return this.http.put(this.baseUrl + 'account/address', address);
   }
 }

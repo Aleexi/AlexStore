@@ -28,6 +28,5 @@ export class AppComponent implements OnInit{
   {
     const JWToken = localStorage.getItem('JWToken');
     this.accountService.loadCurrentUser(JWToken).subscribe();
-    
   }
 }
