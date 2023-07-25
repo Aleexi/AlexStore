@@ -25,7 +25,6 @@ namespace Infrastructure.Data.Identity
                         ZipCode = "15257"
                     }
                 };
-
                 await userManager.CreateAsync(user, "P@$$w0RD");
             }
         }

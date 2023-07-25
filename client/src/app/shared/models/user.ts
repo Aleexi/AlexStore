@@ -1,7 +1,7 @@
 export interface User {
     email: string,
     displayName: string,
-    JWToken : string
+    jwToken : string
 }
 
 export interface Address {

@@ -15,8 +15,8 @@ export class BasketComponent {
     this.basketService.addItemToBasket(item);
   }
 
-  decrementQuantity(item: BasketItem, quantity?: number) {
-    this.basketService.removeItemFromBasket(item.id, quantity)
+  decrementQuantity(id: number, quantity?: number) {
+    this.basketService.removeItemFromBasket(id, quantity)
   }
 
   navigateToRouterLink(item: BasketItem): void {

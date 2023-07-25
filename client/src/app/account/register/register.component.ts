@@ -12,7 +12,7 @@ import { debounceTime, finalize, map, switchMap, take } from 'rxjs';
 export class RegisterComponent {
   errors: string[] | null = null;
 
-  passwordComplexityRegExpression = "(?=^.{6,10}$)(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&amp;*()_+}{&quot;:;'?/&gt;.&lt;,])(?!.*\s).*$"
+  // passwordComplexityRegExpression = "(?=^.{6,10}$)(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&amp;*()_+}{&quot;:;'?/&gt;.&lt;,])(?!.*\s).*$";
 
   constructor(private formBuilder: FormBuilder, private accountService: AccountService,
     private router: Router) {}
@@ -20,7 +20,8 @@ export class RegisterComponent {
   registerForm = this.formBuilder.group({
     displayName: ['', Validators.required],
     email: ['', [Validators.required, Validators.email], [this.validateEmail()]],
-    password: ['', [Validators.required, Validators.pattern(this.passwordComplexityRegExpression)]]
+    //password: ['', [Validators.required, Validators.pattern(this.passwordComplexityRegExpression)]],
+    password: ['', [Validators.required]]
   })
 
   onSubmit() {

@@ -10,7 +10,7 @@ const routes: Routes = [
   {
     path: '',
     component: HomeComponent,
-    data: {breadcrumb: 'Home'}
+    data: { breadcrumb: 'Home' }
   },
   {
     path: 'errors',
@@ -26,24 +26,30 @@ const routes: Routes = [
   },
   {
     path: 'products',
-    loadChildren: () => import('./shop/productshop.module').then(x => x.ProductshopModule) 
+    loadChildren: () => import('./shop/productshop.module').then(x => x.ProductshopModule)
   },
   {
     path: 'pokemons',
-    loadChildren: () => import('./shop/pokemonshop.module').then(x => x.PokemonshopModule) 
+    loadChildren: () => import('./shop/pokemonshop.module').then(x => x.PokemonshopModule)
   },
   {
     path: 'basket',
-    loadChildren: () => import('./basket/basket.module').then(x => x.BasketModule) 
+    loadChildren: () => import('./basket/basket.module').then(x => x.BasketModule)
   },
   {
     path: 'checkout',
     canActivate: [AuthGuard],
-    loadChildren: () => import('./checkout/checkout.module').then(x => x.CheckoutModule) 
+    loadChildren: () => import('./checkout/checkout.module').then(x => x.CheckoutModule)
   },
   {
     path: 'account',
-    loadChildren: () => import('./account/account.module').then(x => x.AccountModule) 
+    loadChildren: () => import('./account/account.module').then(x => x.AccountModule)
+  },
+  {
+    path: 'orders',
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./orders/orders.module').then(x => x.OrdersModule),
+    data: { breadcrumb: 'Orders' }
   },
   {
     path: '**',
